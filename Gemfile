@@ -55,3 +55,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Allows .env file to be accessible throughout. Refer to https://github.com/bkeepers/dotenv for more information.
 gem 'dotenv-rails'
+
+# Allows HTTP requests to be made.
+gem 'httparty'
