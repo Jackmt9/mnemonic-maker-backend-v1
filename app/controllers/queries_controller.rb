@@ -1,2 +1,3 @@
 class QueriesController < ApplicationController
+
 end

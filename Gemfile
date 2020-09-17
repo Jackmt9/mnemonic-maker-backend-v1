@@ -58,3 +58,6 @@ gem 'dotenv-rails'
 
 # Allows HTTP requests to be made.
 gem 'httparty'
+
+# Used to parse webpage.
+gem 'nokogiri'
