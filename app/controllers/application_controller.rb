@@ -3,13 +3,16 @@ class ApplicationController < ActionController::API
 
     def get_info_by_song_id(song_id)
         response = HTTParty.get("#{@@base_genius_uri}/songs/#{song_id}?access_token=#{ENV['GENIUS_API_KEY']}")
-        byebug
-        # lyrics = self.scrape_lyrics(response.url)
-        # response[:lyrics] = lyrics
+        song_url = response['response']['song']['url']
+        lyrics = self.scrape_lyrics(song_url)
+        response[:lyrics] = lyrics
+        return response
     end
 
-    def scrape_lyrics(song_id)
-
+    def scrape_lyrics(song_url)
+        response = HTTParty.get(song_url)
+        parsed_data = Nokogiri::HTML.parse(response)
+        lyrics = parsed_data.css('div.lyrics').text
     end
 
     def get_artist_id_by_artist_name(artist_name)
