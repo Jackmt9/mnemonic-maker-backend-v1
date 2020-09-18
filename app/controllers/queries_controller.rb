@@ -5,7 +5,6 @@ class QueriesController < ApplicationController
         # pass prefered artist down to find_phrase for custom filtering
         # mnemonic = self.find_mnemonic(initials)
         # render json: mnemonic
-        byebug
         render json: {initials: initials}
     end
 
