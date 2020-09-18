@@ -1,5 +1,5 @@
 class QueriesController < ApplicationController
     def find_mnemonic
-        return []
+        render json: {results: true}
     end
 end
