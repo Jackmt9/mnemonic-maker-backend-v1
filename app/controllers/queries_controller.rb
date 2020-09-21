@@ -6,7 +6,7 @@ class QueriesController < ApplicationController
         # pass prefered artist down to find_phrase for custom filtering
         # mnemonic = self.find_mnemonic(initials)
         # render json: mnemonic
-        render json: {song: matching_song_info}
+        render json: {response: matching_song_info}
     end
 
     def get_initials(phrase)
@@ -21,12 +21,17 @@ class QueriesController < ApplicationController
     def find_song(initials)
         song_id = rand(10000)
         song_info = self.get_info_by_song_id(song_id)
-        lyrics = song_info[:lyrics]
-        matching_lyrics_index = input_is_matching(initials, lyrics)
+        if song_info
+            song_info = song_info['response']
+            lyrics = song_info[:lyrics]
+            matching_lyrics_index = input_is_matching(initials, lyrics)
 
-        if matching_lyrics_index
-            song_info = self.add_matching_lyrics(matching_lyrics_index, song_info)
-            return song_info
+            if matching_lyrics_index
+                self.add_matching_lyrics(matching_lyrics_index, song_info)
+                return song_info
+            else
+                self.find_song(initials)
+            end
         else
             self.find_song(initials)
         end
@@ -51,6 +56,7 @@ class QueriesController < ApplicationController
                 initials_index = 0
             end
         end
+        return false
     end
 
 end

@@ -3,10 +3,14 @@ class ApplicationController < ActionController::API
 
     def get_info_by_song_id(song_id)
         response = HTTParty.get("#{@@base_genius_uri}/songs/#{song_id}?access_token=#{ENV['GENIUS_API_KEY']}")
-        song_url = response['response']['song']['url']
-        lyrics = self.scrape_lyrics(song_url)
-        response[:lyrics] = lyrics
-        return response
+        if response['meta']['status'] == 200
+            song_url = response['response']['song']['url']
+            lyrics = self.scrape_lyrics(song_url)
+            response['response'][:lyrics] = lyrics
+            return response
+        else
+            return false
+        end
     end
 
     def scrape_lyrics(song_url)
