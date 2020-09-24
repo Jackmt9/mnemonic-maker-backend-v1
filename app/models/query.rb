@@ -64,9 +64,11 @@ class Query < ApplicationRecord
 
   def self.add_tag_to_lyrics(song_info)
     lyrics_array = song_info[:lyrics].split(' ')
-
     range = song_info[:matching_range]
 
+    # Using .split removes all /n characters and ruins formatting. Find a different way.
+    # Split the string into an array of words but retain /n characters
+    
     lyrics_array.insert(range[1], "</span>")
     lyrics_array.insert(range[0], "<span class='matching-phrase'>")
     lyrics_array.insert(0, "<p class='full-lyrics'>")
