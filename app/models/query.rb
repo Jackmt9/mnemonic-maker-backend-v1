@@ -50,6 +50,7 @@ class Query < ApplicationRecord
     if song_info
         song_info = song_info['response']
         matching_lyrics_index = input_is_matching(initials, song_info)
+
         if matching_lyrics_index
             return song_info
         else
@@ -60,16 +61,19 @@ class Query < ApplicationRecord
     end
     # add error handling if runs too long
   end
-def self.add_tag_to_lyrics(song_info)
-lyrics_array = song_info[:lyrics].split(' ')
-range = song_info[:matching_range]
-lyrics_array.insert(range[1], "</span>")
-lyrics_array.insert(range[0], "<span class='matching-phrase'>")
-lyrics_array.insert(0, "<p class='full-lyrics'>")
-lyrics_array.insert(lyrics_array.length, "</p>")
 
-song_info[:lyrics] = lyrics_array.join(' ') 
-end
+  def self.add_tag_to_lyrics(song_info)
+    lyrics_array = song_info[:lyrics].split(' ')
+
+    range = song_info[:matching_range]
+
+    lyrics_array.insert(range[1], "</span>")
+    lyrics_array.insert(range[0], "<span class='matching-phrase'>")
+    lyrics_array.insert(0, "<p class='full-lyrics'>")
+    lyrics_array.insert(lyrics_array.length, "</p>")
+
+    song_info[:lyrics] = lyrics_array.join(' ') 
+  end
 
   def self.input_is_matching(initials, song_info)
     lyrics = song_info[:lyrics]
